@@ -146,10 +146,12 @@
  * SMPS not used when Set to 0
  * SMPS used when Set to 1
  */
-#define CFG_USE_SMPS    0
+#define CFG_USE_SMPS 	0
 
 /* USER CODE BEGIN Generic_Parameters */
+#define CFG_MAX_CONNECTION 	(8)
 
+#define CFG_DATA_ROLE_MODE 	2
 /* USER CODE END Generic_Parameters */
 
 /**< specific parameters */
@@ -679,7 +681,10 @@ typedef enum
 #endif
   CFG_TASK_HCI_ASYNCH_EVT_ID,
   /* USER CODE BEGIN CFG_Task_Id_With_HCI_Cmd_t */
-
+  CFG_TASK_CONN_MGR_ID,
+  CFG_TASK_HID_UPDATE_REQ_ID,
+  CFG_TASK_HID_DISC_REQ_ID,
+  CFG_TASK_BAS_LEVEL_REQ_ID,
   /* USER CODE END CFG_Task_Id_With_HCI_Cmd_t */
   CFG_LAST_TASK_ID_WITH_HCICMD,                                               /**< Shall be LAST in the list */
 } CFG_Task_Id_With_HCI_Cmd_t;

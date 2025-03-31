@@ -55,12 +55,77 @@
 #define BLE_CFG_CLT_MAX_NBR_CB                                                 0
 
 /******************************************************************************
+ * Device Information Service (DIS)
+ ******************************************************************************/
+/**< Options: Supported(1) or Not Supported(0) */
+#define BLE_CFG_DIS_MANUFACTURER_NAME_STRING                                   1
+#define BLE_CFG_DIS_MODEL_NUMBER_STRING                                        0
+#define BLE_CFG_DIS_SERIAL_NUMBER_STRING                                       0
+#define BLE_CFG_DIS_HARDWARE_REVISION_STRING                                   0
+#define BLE_CFG_DIS_FIRMWARE_REVISION_STRING                                   0
+#define BLE_CFG_DIS_SOFTWARE_REVISION_STRING                                   0
+#define BLE_CFG_DIS_SYSTEM_ID                                                  0
+#define BLE_CFG_DIS_IEEE_CERTIFICATION                                         0
+#define BLE_CFG_DIS_PNP_ID                                                     0
+
+/**
+ * device information service characteristic lengths
+ */
+#define BLE_CFG_DIS_SYSTEM_ID_LEN_MAX                                        (8)
+#define BLE_CFG_DIS_MODEL_NUMBER_STRING_LEN_MAX                              (32)
+#define BLE_CFG_DIS_SERIAL_NUMBER_STRING_LEN_MAX                             (32)
+#define BLE_CFG_DIS_FIRMWARE_REVISION_STRING_LEN_MAX                         (32)
+#define BLE_CFG_DIS_HARDWARE_REVISION_STRING_LEN_MAX                         (32)
+#define BLE_CFG_DIS_SOFTWARE_REVISION_STRING_LEN_MAX                         (32)
+#define BLE_CFG_DIS_MANUFACTURER_NAME_STRING_LEN_MAX                         (32)
+#define BLE_CFG_DIS_IEEE_CERTIFICATION_LEN_MAX                               (32)
+#define BLE_CFG_DIS_PNP_ID_LEN_MAX                                           (7)
+
+/******************************************************************************
+ * Battery Service (BAS)
+ ******************************************************************************/
+#define BLE_CFG_BAS_NUMBER                                                     1
+#define BLE_CFG_BAS_LEVEL_NOT_PROP                                             1   /**< Battery Level characteristic Notification property*/
+
+
+/******************************************************************************
+ * Human Interface Device Service (HIDS)
+ ******************************************************************************/
+#define BLE_CFG_HIDS_NUMBER                                                    1
+#define BLE_CFG_HIDS_REPORT_MAP_MAX_LEN                                       80
+#define BLE_CFG_HIDS_REPORT_REFERENCE_LEN                                      2
+#define BLE_CFG_HIDS_REPORT_MAX_LEN                                           80
+#define BLE_CFG_HIDS_EXTERNAL_REPORT_REFERENCE_LEN                             2
+#define BLE_CFG_HIDS_BOOT_KEYBOARD_INPUT_REPORT_MAX_LEN                       80
+#define BLE_CFG_HIDS_BOOT_KEYBOARD_OUTPUT_REPORT_MAX_LEN                      80
+#define BLE_CFG_HIDS_BOOT_MOUSE_INPUT_REPORT_MAX_LEN                          80
+#define BLE_CFG_HIDS_INFORMATION_LEN                                           4
+#define BLE_CFG_HIDS_CONTROL_POINT_LEN                                         1
+#define BLE_CFG_HIDS_PROTOCOL_MODE_LEN                                         1
+
+#define BLE_CFG_HIDS_PROTOCOL_MODE_CHAR                                        0 /**< Support of Protocol Mode Characteristic */
+#define BLE_CFG_HIDS_INPUT_REPORT_NB                                           1 /**< Number of Input Report */
+#define BLE_CFG_HIDS_INPUT_WRITE                                               1 /**< Support of Input Write property */
+#define BLE_CFG_HIDS_OUTPUT_REPORT_NB                                          0 /**< Number of Output Report */
+#define BLE_CFG_HIDS_FEATURE_REPORT_NB                                         0 /**< Number of Feature Report */
+#define BLE_CFG_HIDS_EXTERNAL_REPORT_REFERENCE                                 0 /**< Support of EXTERNAL REPORT Reference Descriptor */
+#define BLE_CFG_HIDS_KEYBOARD_DEVICE                                           0 /**< Support of BOOT KEYBOARD Report Characteristic */
+#define BLE_CFG_HIDS_KEYBOARD_INPUT_WRITE                                      0 /**< Support of Keyboard Input Write property */
+#define BLE_CFG_HIDS_MOUSE_DEVICE                                              0 /**< Support of BOOT MOUSE Report Characteristic */
+#define BLE_CFG_HIDS_MOUSE_INPUT_WRITE                                         0 /**< Support of Mouse Input Write property */
+#define BLE_CFG_HIDS_REPORT_CHAR               BLE_CFG_HIDS_INPUT_REPORT_NB   +\
+  BLE_CFG_HIDS_OUTPUT_REPORT_NB  +\
+  BLE_CFG_HIDS_FEATURE_REPORT_NB
+#define BLE_CFG_HIDS_PROTOCOL_MODE                                             1 /**< Report Protocol Mode */
+
+/******************************************************************************
  * GAP Service - Appearance
  ******************************************************************************/
 
-#define BLE_CFG_UNKNOWN_APPEARANCE                  (0)
-#define BLE_CFG_HR_SENSOR_APPEARANCE                (832)
-#define BLE_CFG_GAP_APPEARANCE                      (BLE_CFG_UNKNOWN_APPEARANCE)
+#define BLE_CFG_UNKNOWN_APPEARANCE                                           (0)
+#define BLE_CFG_HID_MOUSE_APPEARANCE                                       (962)
+#define BLE_CFG_HID_KEYBOARD_APPEARANCE                                    (961)
+#define BLE_CFG_GAP_APPEARANCE                 (BLE_CFG_HID_KEYBOARD_APPEARANCE)
 
 /******************************************************************************
  * Over The Air Feature (OTA) - STM Proprietary
