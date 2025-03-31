@@ -111,6 +111,7 @@ void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim){
 		}
 		//usb-hid report
 		USBD_HID_SendReport(&hUsbDeviceFS, (uint8_t*)&mr, sizeof(mr));
+		HIDSAPP_Profile_UpdateChar();
 	}
 }
 /* USER CODE END 0 */
@@ -176,7 +177,7 @@ int main(void)
   /* USER CODE BEGIN WHILE */
   while (1){
 //	  uint16_t angle;
-	  HAL_Delay(500);
+//	  HAL_Delay(500);
 //	  HAL_GPIO_TogglePin(LED_GPIO_Port, LED_Pin);
     /* USER CODE END WHILE */
     MX_APPE_Process();

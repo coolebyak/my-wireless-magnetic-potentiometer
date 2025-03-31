@@ -283,7 +283,7 @@ HAL_StatusTypeDef AS5600_Init(AS5600_TypeDef *a) {
     /* Write */
     if (status == HAL_OK) {
     	a->InitStatus = 1;
-    	AS5600_GetRawAngle(a, a->angle_var);
+    	AS5600_GetRawAngle(a, &(a->angle_var));
     	a->angle_prev = a->angle_var;
     	a->angle_diff = 0;
     	a->angle_filt = 0;
