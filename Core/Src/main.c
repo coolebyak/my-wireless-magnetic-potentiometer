@@ -33,6 +33,7 @@
 /* USER CODE BEGIN Includes */
 #include "as5600.h"
 #include "usbd_hid.h"
+#include "hids_app.h"
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -73,45 +74,44 @@ static inline int32_t filter(int32_t in, int32_t prev, int32_t alpha1000){
 	result = (alpha1000*in + (DIVIDER-alpha1000)*prev)/DIVIDER;
 	return result;
 }
+void foo(void){
+	static int8_t angle_report = 0;
+	if (ams->InitStatus != 0){
+		AS5600_GetRawAngle(ams, &ams->angle_var);
+		angle_report = 0;
+		ams->angle_diff = ams->angle_var - ams->angle_prev;
+		if (abs(ams->angle_diff) > 1){
+			ams->angle_prev = ams->angle_var;
 
+			if (ams->angle_diff >  2048) {
+				ams->angle_diff -= 4095;
+			}
+			if (ams->angle_diff < -2048) {
+				ams->angle_diff += 4095;
+			}
+
+			ams->angle_diff /= 8;
+
+			if (abs(ams->angle_diff) > 0) HAL_GPIO_WritePin(LED_GPIO_Port, LED_Pin, GPIO_PIN_SET);
+
+			if (ams->angle_diff >  127) ams->angle_diff =  127;
+			if (ams->angle_diff < -127) ams->angle_diff = -127;
+
+			//ams->angle_filt = filter(ams->angle_diff, ams->angle_filt, 900);
+
+			angle_report = ams->angle_diff;
+
+		} else {
+			HAL_GPIO_WritePin(LED_GPIO_Port, LED_Pin, GPIO_PIN_RESET);
+		}
+
+		mr.wheel = angle_report;
+	}
+}
 
 void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim){
 	if (htim == &htim16) {
-		static int8_t angle_report = 0;
-		if (ams->InitStatus != 0){
-			AS5600_GetRawAngle(ams, &ams->angle_var);
-			angle_report = 0;
-			ams->angle_diff = ams->angle_var - ams->angle_prev;
-			if (abs(ams->angle_diff) > 1){
-				ams->angle_prev = ams->angle_var;
-
-				if (ams->angle_diff >  2048) {
-					ams->angle_diff -= 4095;
-				}
-				if (ams->angle_diff < -2048) {
-					ams->angle_diff += 4095;
-				}
-
-				ams->angle_diff /= 8;
-
-				if (abs(ams->angle_diff) > 0) HAL_GPIO_WritePin(LED_GPIO_Port, LED_Pin, GPIO_PIN_SET);
-
-				if (ams->angle_diff >  127) ams->angle_diff =  127;
-				if (ams->angle_diff < -127) ams->angle_diff = -127;
-
-				//ams->angle_filt = filter(ams->angle_diff, ams->angle_filt, 900);
-
-				angle_report = ams->angle_diff;
-
-			} else {
-				HAL_GPIO_WritePin(LED_GPIO_Port, LED_Pin, GPIO_PIN_RESET);
-			}
-
-			mr.wheel = angle_report;
-		}
-		//usb-hid report
-		USBD_HID_SendReport(&hUsbDeviceFS, (uint8_t*)&mr, sizeof(mr));
-		HIDSAPP_Profile_UpdateChar();
+		//foo();
 	}
 }
 /* USER CODE END 0 */
@@ -161,6 +161,8 @@ int main(void)
   MX_RNG_Init();
   MX_RF_Init();
   /* USER CODE BEGIN 2 */
+  LL_HSEM_1StepLock( HSEM, CFG_HW_CLK48_CONFIG_SEMID );
+
   ams = AS5600_New_Static();
   ams->i2cHandle = &hi2c1;
   ams->i2cAddr = AS5600_SLAVE_ADDRESS<<1;
@@ -176,12 +178,24 @@ int main(void)
   /* Infinite loop */
   /* USER CODE BEGIN WHILE */
   while (1){
+	  static uint32_t tick = 0;
+	  static uint32_t tick_now = 0;
 //	  uint16_t angle;
 //	  HAL_Delay(500);
 //	  HAL_GPIO_TogglePin(LED_GPIO_Port, LED_Pin);
-    /* USER CODE END WHILE */
-    MX_APPE_Process();
 
+    MX_APPE_Process();
+    tick_now = HAL_GetTick();
+    if(tick_now >= tick){
+    	tick = tick_now + 10;
+    	foo();
+    	//usb-hid report
+//    	USBD_HID_SendReport(&hUsbDeviceFS, (uint8_t*)&mr, sizeof(mr));
+//    	if(0){
+//    		HIDSAPP_Profile_UpdateChar();
+//    	}
+  /* USER CODE END WHILE */
+    }
     /* USER CODE BEGIN 3 */
   }
   /* USER CODE END 3 */

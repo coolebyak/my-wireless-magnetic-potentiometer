@@ -125,7 +125,7 @@
 #define BLE_CFG_UNKNOWN_APPEARANCE                                           (0)
 #define BLE_CFG_HID_MOUSE_APPEARANCE                                       (962)
 #define BLE_CFG_HID_KEYBOARD_APPEARANCE                                    (961)
-#define BLE_CFG_GAP_APPEARANCE                 (BLE_CFG_HID_KEYBOARD_APPEARANCE)
+#define BLE_CFG_GAP_APPEARANCE                 (BLE_CFG_HID_MOUSE_APPEARANCE)
 
 /******************************************************************************
  * Over The Air Feature (OTA) - STM Proprietary
