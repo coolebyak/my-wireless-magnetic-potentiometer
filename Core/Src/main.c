@@ -33,7 +33,9 @@
 /* USER CODE BEGIN Includes */
 #include "as5600.h"
 #include "usbd_hid.h"
+#include "app_ble.h"
 #include "hids_app.h"
+#include "stm32_seq.h"
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -161,7 +163,7 @@ int main(void)
   MX_RNG_Init();
   MX_RF_Init();
   /* USER CODE BEGIN 2 */
-  LL_HSEM_1StepLock( HSEM, CFG_HW_CLK48_CONFIG_SEMID );
+  LL_HSEM_1StepLock( HSEM, CFG_HW_CLK48_CONFIG_SEMID);
 
   ams = AS5600_New_Static();
   ams->i2cHandle = &hi2c1;
@@ -190,10 +192,16 @@ int main(void)
     	tick = tick_now + 10;
     	foo();
     	//usb-hid report
-//    	USBD_HID_SendReport(&hUsbDeviceFS, (uint8_t*)&mr, sizeof(mr));
+    	HID_ConnStatus_t tmp = get_conn_status(0);
+    	if (tmp == HID_CONNECTED_SERVER || tmp == HID_CONNECTED_CLIENT){
+    		UTIL_SEQ_SetTask(1<<CFG_TASK_HID_UPDATE_REQ_ID, CFG_SCH_PRIO_0);
+    	} else {
+    		USBD_HID_SendReport(&hUsbDeviceFS, (uint8_t*)&mr, sizeof(mr));
+    	}
+//
 //    	if(0){
 //    		HIDSAPP_Profile_UpdateChar();
-//    	}
+//    	}d
   /* USER CODE END WHILE */
     }
     /* USER CODE BEGIN 3 */

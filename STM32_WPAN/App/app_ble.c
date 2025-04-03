@@ -45,15 +45,15 @@
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
-typedef enum
-{
-  HID_IDLE,
-  HID_FAST_ADV,
-  HID_LP_ADV,
-  HID_LP_CONNECTING,
-  HID_CONNECTED_SERVER,
-  HID_CONNECTED_CLIENT
-} HID_ConnStatus_t;
+//typedef enum
+//{
+//  HID_IDLE,
+//  HID_FAST_ADV,
+//  HID_LP_ADV,
+//  HID_LP_CONNECTING,
+//  HID_CONNECTED_SERVER,
+//  HID_CONNECTED_CLIENT
+//} HID_ConnStatus_t;
 
 /**
  * security parameters structure
@@ -1234,5 +1234,10 @@ void SVCCTL_ResumeUserEventFlow(void)
 }
 
 /* USER CODE BEGIN FD_WRAP_FUNCTIONS */
+HID_ConnStatus_t get_conn_status(uint32_t index){
+	HID_ConnStatus_t result;
 
+	result = BleApplicationContext.Device_Connection_Status[index];
+	return result;
+}
 /* USER CODE END FD_WRAP_FUNCTIONS */

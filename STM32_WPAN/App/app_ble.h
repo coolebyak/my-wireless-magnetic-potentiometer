@@ -43,7 +43,15 @@ typedef enum
 } APP_BLE_InitMode_t;
 
 /* USER CODE BEGIN ET */
-
+typedef enum
+{
+  HID_IDLE,
+  HID_FAST_ADV,
+  HID_LP_ADV,
+  HID_LP_CONNECTING,
+  HID_CONNECTED_SERVER,
+  HID_CONNECTED_CLIENT
+} HID_ConnStatus_t;
 /* USER CODE END ET */
 
 /* Exported constants --------------------------------------------------------*/
@@ -70,6 +78,7 @@ void APP_BLE_Key_Button1_Action(void);
 void APP_BLE_Key_Button2_Action(void);
 void APP_BLE_Key_Button3_Action(void);
 
+HID_ConnStatus_t get_conn_status(uint32_t index);
 /* USER CODE END EF */
 
 #ifdef __cplusplus
