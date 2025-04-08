@@ -59,10 +59,13 @@
  */
 #define CFG_BLE_ADDRESS_TYPE              GAP_PUBLIC_ADDR
 
-#define CFG_FAST_CONN_ADV_INTERVAL_MIN    (0x80)      /**< 80ms */
-#define CFG_FAST_CONN_ADV_INTERVAL_MAX    (0xA0)      /**< 100ms */
+#define CFG_FAST_CONN_ADV_INTERVAL_MIN    (0x0080)      /**< 80ms */
+#define CFG_FAST_CONN_ADV_INTERVAL_MAX    (0x0100)      /**< 100ms */
 #define CFG_LP_CONN_ADV_INTERVAL_MIN      (0x640)     /**< 1s */
 #define CFG_LP_CONN_ADV_INTERVAL_MAX      (0xFA0)     /**< 2.5s */
+#define ADV_TYPE                          ADV_IND
+#define BLE_ADDR_TYPE                     GAP_PUBLIC_ADDR
+#define ADV_FILTER                        NO_WHITE_LIST_USE
 /**
  * Define IO Authentication
  */
@@ -81,7 +84,7 @@
 #define CFG_IO_CAPABILITY_NO_INPUT_NO_OUTPUT  (0x03)
 #define CFG_IO_CAPABILITY_KEYBOARD_DISPLAY    (0x04)
 
-#define CFG_IO_CAPABILITY                     CFG_IO_CAPABILITY_DISPLAY_YES_NO
+#define CFG_IO_CAPABILITY                      CFG_IO_CAPABILITY_NO_INPUT_NO_OUTPUT
 
 /**
  * Define MITM modes
@@ -89,7 +92,7 @@
 #define CFG_MITM_PROTECTION_NOT_REQUIRED      (0x00)
 #define CFG_MITM_PROTECTION_REQUIRED          (0x01)
 
-#define CFG_MITM_PROTECTION                   CFG_MITM_PROTECTION_REQUIRED
+#define CFG_MITM_PROTECTION                   CFG_MITM_PROTECTION_NOT_REQUIRED
 
 /**
  * Define Secure Connections Support
@@ -98,7 +101,7 @@
 #define CFG_SECURE_OPTIONAL                   (0x01)
 #define CFG_SECURE_MANDATORY                  (0x02)
 
-#define CFG_SC_SUPPORT                        CFG_SECURE_NOT_SUPPORTED
+#define CFG_SC_SUPPORT                        CFG_SECURE_OPTIONAL
 
 /**
  * Define Keypress Notification Support
@@ -117,8 +120,8 @@
 /**
  * Device name configuration for Generic Access Service
  */
-#define CFG_GAP_DEVICE_NAME             "TEMPLATE"
-#define CFG_GAP_DEVICE_NAME_LENGTH      (8)
+#define CFG_GAP_DEVICE_NAME             "HID Mouse"
+#define CFG_GAP_DEVICE_NAME_LENGTH      (9)
 
 /**
  * Define PHY
@@ -156,21 +159,6 @@
 
 /**< specific parameters */
 /*****************************************************/
-
-#define P2P_SERVER1    1    /*1 = Device is Peripherique*/
-#define P2P_SERVER2    0
-#define P2P_SERVER3    0
-#define P2P_SERVER4    0
-#define P2P_SERVER5    0
-#define P2P_SERVER6    0
-
-#define CFG_DEV_ID_P2P_SERVER1                  (0x83)
-#define CFG_DEV_ID_P2P_SERVER2                  (0x84)
-#define CFG_DEV_ID_P2P_SERVER3                  (0x87)
-#define CFG_DEV_ID_P2P_SERVER4                  (0x88)
-#define CFG_DEV_ID_P2P_SERVER5                  (0x89)
-#define CFG_DEV_ID_P2P_SERVER6                  (0x8A)
-#define CFG_DEV_ID_P2P_ROUTER                   (0x85)
 
 #define  RADIO_ACTIVITY_EVENT   1          /* 1 for OOB Demo */
 
@@ -453,8 +441,8 @@
 /**
  * Select UART interfaces
  */
-#define CFG_DEBUG_TRACE_UART    0
-#define CFG_CONSOLE_MENU        0
+#define CFG_DEBUG_TRACE_UART    hw_uart1
+#define CFG_CONSOLE_MENU        hw_lpuart1
 /******************************************************************************
  * USB interface
  ******************************************************************************/
@@ -483,7 +471,7 @@
  *  When set to 1, the low power mode is enable
  *  When set to 0, the device stays in RUN mode
  */
-#define CFG_LPM_SUPPORTED    0
+#define CFG_LPM_SUPPORTED    1
 
 /******************************************************************************
  * RTC interface
@@ -572,7 +560,7 @@ typedef enum
 {
   CFG_TIM_PROC_ID_ISR,
   /* USER CODE BEGIN CFG_TimProcID_t */
-
+  CFG_TIM_FOR_MAGN_SENSOR
   /* USER CODE END CFG_TimProcID_t */
 } CFG_TimProcID_t;
 
@@ -597,12 +585,12 @@ typedef enum
 /**
  * When set to 1, the traces are enabled in the BLE services
  */
-#define CFG_DEBUG_BLE_TRACE     0
+#define CFG_DEBUG_BLE_TRACE     1
 
 /**
  * Enable or Disable traces in application
  */
-#define CFG_DEBUG_APP_TRACE     0
+#define CFG_DEBUG_APP_TRACE     1
 
 #if (CFG_DEBUG_APP_TRACE != 0)
 #define APP_DBG_MSG                 PRINT_MESG_DBG
@@ -629,7 +617,7 @@ typedef enum
  * When both are set to 1,  CFG_DEBUG_TRACE_FULL is selected
  */
 #define CFG_DEBUG_TRACE_LIGHT     0
-#define CFG_DEBUG_TRACE_FULL      0
+#define CFG_DEBUG_TRACE_FULL      1
 
 #if (( CFG_DEBUG_TRACE != 0 ) && ( CFG_DEBUG_TRACE_LIGHT == 0 ) && (CFG_DEBUG_TRACE_FULL == 0))
 #undef CFG_DEBUG_TRACE_FULL

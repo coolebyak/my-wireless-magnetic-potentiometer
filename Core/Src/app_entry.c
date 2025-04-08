@@ -296,7 +296,7 @@ static void SystemPower_Config(void)
   /* Initialize low power manager */
   UTIL_LPM_Init();
   /* Initialize the CPU2 reset value before starting CPU2 with C2BOOT */
-  LL_C2_PWR_SetPowerMode(LL_PWR_MODE_SHUTDOWN);//LL_C2_PWR_SetPowerMode(LL_PWR_MODE_STOP0);
+  LL_C2_PWR_SetPowerMode(LL_PWR_MODE_SHUTDOWN);
 
 #if (CFG_USB_INTERFACE_ENABLE != 0)
   /**

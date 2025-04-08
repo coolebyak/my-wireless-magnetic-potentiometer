@@ -21,6 +21,7 @@
 #include "dma.h"
 #include "i2c.h"
 #include "ipcc.h"
+#include "usart.h"
 #include "memorymap.h"
 #include "rf.h"
 #include "rng.h"
@@ -161,6 +162,8 @@ int main(void)
   MX_USB_Device_Init();
   MX_TIM16_Init();
   MX_RNG_Init();
+  MX_LPUART1_UART_Init();
+  MX_USART1_UART_Init();
   MX_RF_Init();
   /* USER CODE BEGIN 2 */
   LL_HSEM_1StepLock( HSEM, CFG_HW_CLK48_CONFIG_SEMID);
@@ -186,7 +189,6 @@ int main(void)
 //	  HAL_Delay(500);
 //	  HAL_GPIO_TogglePin(LED_GPIO_Port, LED_Pin);
 
-    MX_APPE_Process();
     tick_now = HAL_GetTick();
     if(tick_now >= tick){
     	tick = tick_now + 10;
@@ -202,8 +204,10 @@ int main(void)
 //    	if(0){
 //    		HIDSAPP_Profile_UpdateChar();
 //    	}d
-  /* USER CODE END WHILE */
     }
+    /* USER CODE END WHILE */
+    MX_APPE_Process();
+
     /* USER CODE BEGIN 3 */
   }
   /* USER CODE END 3 */
@@ -230,13 +234,12 @@ void SystemClock_Config(void)
   /** Initializes the RCC Oscillators according to the specified parameters
   * in the RCC_OscInitTypeDef structure.
   */
-  RCC_OscInitStruct.OscillatorType = RCC_OSCILLATORTYPE_HSI|RCC_OSCILLATORTYPE_LSI1
-                              |RCC_OSCILLATORTYPE_HSE|RCC_OSCILLATORTYPE_LSE;
+  RCC_OscInitStruct.OscillatorType = RCC_OSCILLATORTYPE_HSI|RCC_OSCILLATORTYPE_HSE
+                              |RCC_OSCILLATORTYPE_LSE;
   RCC_OscInitStruct.HSEState = RCC_HSE_ON;
   RCC_OscInitStruct.LSEState = RCC_LSE_ON;
   RCC_OscInitStruct.HSIState = RCC_HSI_ON;
   RCC_OscInitStruct.HSICalibrationValue = RCC_HSICALIBRATION_DEFAULT;
-  RCC_OscInitStruct.LSIState = RCC_LSI_ON;
   RCC_OscInitStruct.PLL.PLLState = RCC_PLL_ON;
   RCC_OscInitStruct.PLL.PLLSource = RCC_PLLSOURCE_HSE;
   RCC_OscInitStruct.PLL.PLLM = RCC_PLLM_DIV2;
