@@ -673,6 +673,7 @@ typedef enum
   CFG_TASK_HID_UPDATE_REQ_ID,
   CFG_TASK_HID_DISC_REQ_ID,
   CFG_TASK_BAS_LEVEL_REQ_ID,
+  CFG_TASK_MAGN_DATA_REQ_ID,
   /* USER CODE END CFG_Task_Id_With_HCI_Cmd_t */
   CFG_LAST_TASK_ID_WITH_HCICMD,                                               /**< Shall be LAST in the list */
 } CFG_Task_Id_With_HCI_Cmd_t;

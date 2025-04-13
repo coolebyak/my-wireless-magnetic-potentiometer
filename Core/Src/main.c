@@ -93,7 +93,9 @@ void foo(void){
 				ams->angle_diff += 4095;
 			}
 
-			ams->angle_diff /= 8;
+			static const uint16_t divider = 8;
+			if (ams->angle_diff > divider) ams->angle_diff /= divider;
+
 
 			if (abs(ams->angle_diff) > 0) HAL_GPIO_WritePin(LED_GPIO_Port, LED_Pin, GPIO_PIN_SET);
 
@@ -191,8 +193,8 @@ int main(void)
 
     tick_now = HAL_GetTick();
     if(tick_now >= tick){
-    	tick = tick_now + 10;
-    	foo();
+    	tick = tick_now + 1000;
+//    	foo();
     	//usb-hid report
     	HID_ConnStatus_t tmp = get_conn_status(0);
     	if (tmp == HID_CONNECTED_SERVER || tmp == HID_CONNECTED_CLIENT){
@@ -203,7 +205,7 @@ int main(void)
 //
 //    	if(0){
 //    		HIDSAPP_Profile_UpdateChar();
-//    	}d
+//    	}
     }
     /* USER CODE END WHILE */
     MX_APPE_Process();

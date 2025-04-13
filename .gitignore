@@ -7,3 +7,5 @@
 *.mk
 makefile
 *.bak
+Debug/my-wireless-magnetic-potentiometer.elf
+Debug/my-wireless-magnetic-potentiometer.hex

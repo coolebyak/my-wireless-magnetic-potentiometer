@@ -189,7 +189,7 @@ __WEAK void SVCCTL_SvcInit(void)
 
   MESH_Init();
 
-  SVCCTL_InitCustomSvc();
+//  SVCCTL_InitCustomSvc();
   
   return;
 }
