@@ -560,7 +560,7 @@ typedef enum
 {
   CFG_TIM_PROC_ID_ISR,
   /* USER CODE BEGIN CFG_TimProcID_t */
-//  CFG_TIM_FOR_MAGN_SENSOR
+
   /* USER CODE END CFG_TimProcID_t */
 } CFG_TimProcID_t;
 

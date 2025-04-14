@@ -66,7 +66,7 @@ extern DMA_HandleTypeDef hdma_usart1_rx;
 extern DMA_HandleTypeDef hdma_usart1_tx;
 extern UART_HandleTypeDef hlpuart1;
 extern UART_HandleTypeDef huart1;
-extern RNG_HandleTypeDef hrng;
+extern RTC_HandleTypeDef hrtc;
 extern TIM_HandleTypeDef htim16;
 /* USER CODE BEGIN EV */
 
@@ -215,44 +215,17 @@ void SysTick_Handler(void)
 /******************************************************************************/
 
 /**
-  * @brief This function handles PVD/PVM0/PVM2 interrupts through EXTI lines 16/31/33.
+  * @brief This function handles RTC wake-up interrupt through EXTI line 19.
   */
-void PVD_PVM_IRQHandler(void)
+void RTC_WKUP_IRQHandler(void)
 {
-  /* USER CODE BEGIN PVD_PVM_IRQn 0 */
+  /* USER CODE BEGIN RTC_WKUP_IRQn 0 */
 
-  /* USER CODE END PVD_PVM_IRQn 0 */
-  HAL_PWREx_PVD_PVM_IRQHandler();
-  /* USER CODE BEGIN PVD_PVM_IRQn 1 */
+  /* USER CODE END RTC_WKUP_IRQn 0 */
+  HAL_RTCEx_WakeUpTimerIRQHandler(&hrtc);
+  /* USER CODE BEGIN RTC_WKUP_IRQn 1 */
 
-  /* USER CODE END PVD_PVM_IRQn 1 */
-}
-
-/**
-  * @brief This function handles Flash global interrupt.
-  */
-void FLASH_IRQHandler(void)
-{
-  /* USER CODE BEGIN FLASH_IRQn 0 */
-
-  /* USER CODE END FLASH_IRQn 0 */
-  HAL_FLASH_IRQHandler();
-  /* USER CODE BEGIN FLASH_IRQn 1 */
-
-  /* USER CODE END FLASH_IRQn 1 */
-}
-
-/**
-  * @brief This function handles RCC global interrupt.
-  */
-void RCC_IRQHandler(void)
-{
-  /* USER CODE BEGIN RCC_IRQn 0 */
-
-  /* USER CODE END RCC_IRQn 0 */
-  /* USER CODE BEGIN RCC_IRQn 1 */
-
-  /* USER CODE END RCC_IRQn 1 */
+  /* USER CODE END RTC_WKUP_IRQn 1 */
 }
 
 /**
@@ -340,20 +313,6 @@ void DMA1_Channel6_IRQHandler(void)
 }
 
 /**
-  * @brief This function handles USB high priority interrupt.
-  */
-void USB_HP_IRQHandler(void)
-{
-  /* USER CODE BEGIN USB_HP_IRQn 0 */
-
-  /* USER CODE END USB_HP_IRQn 0 */
-  HAL_PCD_IRQHandler(&hpcd_USB_FS);
-  /* USER CODE BEGIN USB_HP_IRQn 1 */
-
-  /* USER CODE END USB_HP_IRQn 1 */
-}
-
-/**
   * @brief This function handles USB low priority interrupt, USB wake-up interrupt through EXTI line 28.
   */
 void USB_LP_IRQHandler(void)
@@ -365,19 +324,6 @@ void USB_LP_IRQHandler(void)
   /* USER CODE BEGIN USB_LP_IRQn 1 */
 
   /* USER CODE END USB_LP_IRQn 1 */
-}
-
-/**
-  * @brief This function handles CPU2 SEV interrupt through EXTI line 40 and PWR CPU2 HOLD wake-up interrupt.
-  */
-void C2SEV_PWR_C2H_IRQHandler(void)
-{
-  /* USER CODE BEGIN C2SEV_PWR_C2H_IRQn 0 */
-
-  /* USER CODE END C2SEV_PWR_C2H_IRQn 0 */
-  /* USER CODE BEGIN C2SEV_PWR_C2H_IRQn 1 */
-
-  /* USER CODE END C2SEV_PWR_C2H_IRQn 1 */
 }
 
 /**
@@ -451,19 +397,6 @@ void LPUART1_IRQHandler(void)
 }
 
 /**
-  * @brief This function handles PWR switching on the fly, end of BLE activity, end of 802.15.4 activity, end of critical radio phase interrupt.
-  */
-void PWR_SOTF_BLEACT_802ACT_RFPHASE_IRQHandler(void)
-{
-  /* USER CODE BEGIN PWR_SOTF_BLEACT_802ACT_RFPHASE_IRQn 0 */
-
-  /* USER CODE END PWR_SOTF_BLEACT_802ACT_RFPHASE_IRQn 0 */
-  /* USER CODE BEGIN PWR_SOTF_BLEACT_802ACT_RFPHASE_IRQn 1 */
-
-  /* USER CODE END PWR_SOTF_BLEACT_802ACT_RFPHASE_IRQn 1 */
-}
-
-/**
   * @brief This function handles IPCC RX occupied interrupt.
   */
 void IPCC_C1_RX_IRQHandler(void)
@@ -503,33 +436,6 @@ void HSEM_IRQHandler(void)
   /* USER CODE BEGIN HSEM_IRQn 1 */
 
   /* USER CODE END HSEM_IRQn 1 */
-}
-
-/**
-  * @brief This function handles RNG global interrupt.
-  */
-void RNG_IRQHandler(void)
-{
-  /* USER CODE BEGIN RNG_IRQn 0 */
-
-  /* USER CODE END RNG_IRQn 0 */
-  HAL_RNG_IRQHandler(&hrng);
-  /* USER CODE BEGIN RNG_IRQn 1 */
-
-  /* USER CODE END RNG_IRQn 1 */
-}
-
-/**
-  * @brief This function handles FPU global interrupt.
-  */
-void FPU_IRQHandler(void)
-{
-  /* USER CODE BEGIN FPU_IRQn 0 */
-
-  /* USER CODE END FPU_IRQn 0 */
-  /* USER CODE BEGIN FPU_IRQn 1 */
-
-  /* USER CODE END FPU_IRQn 1 */
 }
 
 /* USER CODE BEGIN 1 */
