@@ -79,6 +79,7 @@ static inline int32_t filter(int32_t in, int32_t prev, int32_t alpha1000){
 }
 void foo(void){
 	static int8_t angle_report = 0;
+	static HID_ConnStatus_t conn_status = HID_IDLE;
 	if (ams->InitStatus != 0){
 		AS5600_GetRawAngle(ams, &ams->angle_var);
 		angle_report = 0;
@@ -111,6 +112,14 @@ void foo(void){
 		}
 
 		mr.wheel = angle_report;
+
+
+		conn_status = get_conn_status(0);
+		if (conn_status == HID_CONNECTED_SERVER || conn_status == HID_CONNECTED_CLIENT){
+			UTIL_SEQ_SetTask(1<<CFG_TASK_HID_UPDATE_REQ_ID, CFG_SCH_PRIO_0);
+		} else {
+			USBD_HID_SendReport(&hUsbDeviceFS, (uint8_t*)&mr, sizeof(mr));
+		}
 	}
 }
 
@@ -193,15 +202,15 @@ int main(void)
 
     tick_now = HAL_GetTick();
     if(tick_now >= tick){
-    	tick = tick_now + 1000;
+    	tick = tick_now + 10;
 //    	foo();
-    	//usb-hid report
-    	HID_ConnStatus_t tmp = get_conn_status(0);
-    	if (tmp == HID_CONNECTED_SERVER || tmp == HID_CONNECTED_CLIENT){
-    		UTIL_SEQ_SetTask(1<<CFG_TASK_HID_UPDATE_REQ_ID, CFG_SCH_PRIO_0);
-    	} else {
-    		USBD_HID_SendReport(&hUsbDeviceFS, (uint8_t*)&mr, sizeof(mr));
-    	}
+//    	//usb-hid report
+//    	HID_ConnStatus_t tmp = get_conn_status(0);
+//    	if (tmp == HID_CONNECTED_SERVER || tmp == HID_CONNECTED_CLIENT){
+//    		UTIL_SEQ_SetTask(1<<CFG_TASK_HID_UPDATE_REQ_ID, CFG_SCH_PRIO_0);
+//    	} else {
+//    		USBD_HID_SendReport(&hUsbDeviceFS, (uint8_t*)&mr, sizeof(mr));
+//    	}
 //
 //    	if(0){
 //    		HIDSAPP_Profile_UpdateChar();

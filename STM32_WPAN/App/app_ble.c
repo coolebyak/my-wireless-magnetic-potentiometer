@@ -410,7 +410,7 @@ void APP_BLE_Init(void)
   Adv_Request(HID_FAST_ADV);
 
   /* USER CODE BEGIN APP_BLE_Init_2 */
-  HW_TS_Start(Magn_sensor_timer_Id, (5*1000*1000/CFG_TS_TICK_VAL) );
+  HW_TS_Start(Magn_sensor_timer_Id, (10*1000/CFG_TS_TICK_VAL) );
   /* USER CODE END APP_BLE_Init_2 */
 
   return;
@@ -923,7 +923,7 @@ static void Adv_Update (void)
 }
 
 static void MagnDataReq(void){
-	APP_DBG_MSG("MagnDataReq\n");
+//	APP_DBG_MSG("MagnDataReq\n");
 
   UTIL_SEQ_SetTask(1<<CFG_TASK_MAGN_DATA_REQ_ID,CFG_SCH_PRIO_0);
 
@@ -931,7 +931,8 @@ static void MagnDataReq(void){
 }
 
 static void justEmpty(void){
-	APP_DBG_MSG("justEmpty\n");
+//	APP_DBG_MSG("justEmpty\n");
+	foo();
 
   return;
 }
