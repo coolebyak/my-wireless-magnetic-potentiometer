@@ -169,7 +169,6 @@ typedef struct
   BleGlobalContext_t BleApplicationContext_legacy;
   HID_ConnStatus_t Device_Connection_Status[CFG_MAX_CONNECTION];
   uint8_t Connection_mgr_timer_Id;
-  uint8_t Magn_sensor_timer_Id;
 } BleApplicationContext_t;
 
 /* Private defines -----------------------------------------------------------*/
@@ -240,7 +239,7 @@ uint8_t a_ManufData[14] = {sizeof(a_ManufData)-1,
                           };
 
 /* USER CODE BEGIN PV */
-
+static uint8_t Magn_sensor_timer_Id;
 /* USER CODE END PV */
 
 /* Private function prototypes -----------------------------------------------*/
@@ -252,6 +251,7 @@ static const uint8_t* BleGetBdAddress(void);
 static void Add_Advertisment_Service_UUID(uint16_t servUUID);
 static void Adv_Request(HID_ConnStatus_t New_Status);
 static void MagnDataReq(void);
+static void justEmpty(void);
 static void ConnMgr(void);
 static void Adv_Update(void);
 static void Disconnection(void);
@@ -385,9 +385,10 @@ void APP_BLE_Init(void)
   HW_TS_ReturnStatus_t tmr_ret;
   tmr_ret = HW_TS_Create(CFG_TIM_PROC_ID_ISR, &(BleApplicationContext.Connection_mgr_timer_Id), hw_ts_SingleShot, ConnMgr);
 
-  UTIL_SEQ_RegTask( 1<< CFG_TASK_MAGN_DATA_REQ_ID, UTIL_SEQ_RFU, foo );
-  tmr_ret = HW_TS_Create(CFG_TIM_FOR_MAGN_SENSOR, &(BleApplicationContext.Magn_sensor_timer_Id), hw_ts_Repeated, MagnDataReq);
-  HW_TS_Stop(BleApplicationContext.Magn_sensor_timer_Id);
+  UTIL_SEQ_RegTask( 1<< CFG_TASK_MAGN_DATA_REQ_ID, UTIL_SEQ_RFU, justEmpty );
+//  UTIL_SEQ_SetTask( 1<< CFG_TASK_MAGN_DATA_REQ_ID, CFG_SCH_PRIO_0);
+  tmr_ret = HW_TS_Create(CFG_TIM_PROC_ID_ISR, &(Magn_sensor_timer_Id), hw_ts_Repeated, MagnDataReq);
+  HW_TS_Stop(Magn_sensor_timer_Id);
   UNUSED(tmr_ret);
   /**
    * Make device discoverable
@@ -409,7 +410,7 @@ void APP_BLE_Init(void)
   Adv_Request(HID_FAST_ADV);
 
   /* USER CODE BEGIN APP_BLE_Init_2 */
-  HW_TS_Start(BleApplicationContext.Magn_sensor_timer_Id, (5*1000*1000/CFG_TS_TICK_VAL) );
+  HW_TS_Start(Magn_sensor_timer_Id, (5*1000*1000/CFG_TS_TICK_VAL) );
   /* USER CODE END APP_BLE_Init_2 */
 
   return;
@@ -925,6 +926,12 @@ static void MagnDataReq(void){
 	APP_DBG_MSG("MagnDataReq\n");
 
   UTIL_SEQ_SetTask(1<<CFG_TASK_MAGN_DATA_REQ_ID,CFG_SCH_PRIO_0);
+
+  return;
+}
+
+static void justEmpty(void){
+	APP_DBG_MSG("justEmpty\n");
 
   return;
 }
